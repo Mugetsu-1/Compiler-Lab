@@ -1,0 +1,14 @@
+# Ignore everything by default.
+*
+
+# Keep folders searchable so allow-list rules can apply inside them.
+!*/
+
+# Keep lab source files.
+!*.cpp
+!*.l
+!*.y
+
+# Keep project documentation and ignore rules.
+!README.md
+!.gitignore
