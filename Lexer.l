@@ -7,15 +7,15 @@ int line_no = 1;
 \n          { line_no++; }
 [ \t]+      ;
 "//".*      ;
-"/*"([^*]|\*+[^/*])*"*"+"/" ;
+"/*"([^*]|\*+[^/*])*"*"+"/" { for (int i = 0; yytext[i]; i++) if (yytext[i] == '\n') line_no++; }
 
-"int"|"float"|"char"|"if"|"else"|"return" { printf("<KEYWORD, %d %s,>\n", yytext, line_no); }
-[a-zA-Z_][a-zA-Z0-9_]*                    { printf("<IDENTIFIER, %d %s,>\n", yytext, line_no); }
-[0-9]+\.[0-9]+                            { printf("<FLOAT_CONST, %d %s,>\n", yytext, line_no); }
-[0-9]+                                    { printf("<INT_CONST, %d %s,>\n", yytext, line_no); }
-"+"|"-"|"*"|"/"|"="                       { printf("<OPERATOR, %d %s,>\n", yytext, line_no); }
-";"|","|"("|"}"|"{"|")"                   { printf("<DELIMITER, %d %s,>\n", yytext, line_no); }
-.                                         { printf("<UNKNOWN, %d %s,>\n", yytext, line_no); }
+"auto"|"break"|"case"|"char"|"const"|"continue"|"default"|"do"|"double"|"else"|"enum"|"extern"|"float"|"for"|"goto"|"if"|"int"|"long"|"register"|"return"|"short"|"signed"|"sizeof"|"static"|"struct"|"switch"|"typedef"|"union"|"unsigned"|"void"|"volatile"|"while" { printf("<KEYWORD, %s, %d>\n", yytext, line_no); }
+[a-zA-Z_][a-zA-Z0-9_]*                    { printf("<IDENTIFIER, %s, %d>\n", yytext, line_no); }
+[0-9]+\.[0-9]+                            { printf("<FLOAT_CONST, %s, %d>\n", yytext, line_no); }
+[0-9]+                                    { printf("<INT_CONST, %s, %d>\n", yytext, line_no); }
+"+"|"-"|"*"|"/"|"%"                       { printf("<ARITHMETIC_OPERATOR, %s, %d>\n", yytext, line_no); }
+";"|","|"("|"}"|"{"|")"                   { printf("<DELIMITER, %s, %d>\n", yytext, line_no); }
+.                                         { printf("<UNKNOWN, %s, %d>\n", yytext, line_no); }
 %%
 
 int main() {

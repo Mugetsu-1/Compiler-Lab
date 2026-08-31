@@ -4,7 +4,10 @@
 using namespace std;
 
 int main() {
-    string input = "i+i$"; // 'i' represents id
+    string input;
+    cout << "Grammar: E->TX, X->+TX|e, T->i\nEnter input using i for id: ";
+    cin >> input;
+    if (input.back() != '$') input += '$';
     stack<char> st;
     st.push('$'); st.push('E');
     size_t ip = 0;

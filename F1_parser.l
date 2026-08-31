@@ -1,13 +1,14 @@
 %{
-#include "parser.tab.h"
+#include "F2_parser.tab.h"
+#include <stdlib.h>
 %}
 
 %%
 [0-9]+      { yylval = atoi(yytext); return NUMBER; }
-"int"       { return INT; }
+"int"|"float"|"char" { return TYPE; }
 [a-zA-Z_][a-zA-Z0-9_]* { return ID; }
 [\t ]+      ;
-\n          { return 0; }
+\n          ;
 .           { return yytext[0]; }
 %%
 
