@@ -4,27 +4,19 @@
 using namespace std;
 
 int main() {
-    string input;
-    cout << "Grammar: E->TX, X->+TX|e, T->i\nEnter input using i for id: ";
-    cin >> input;
-    if (input.back() != '$') input += '$';
-    stack<char> st;
-    st.push('$'); st.push('E');
-    size_t ip = 0;
-
+    string in = "i+i$";
+    stack<char> st; st.push('$'); st.push('E');
+    int i = 0;
     while (!st.empty()) {
-        char top = st.top();
-        char curr = input[ip];
-
-        if (top == curr) { st.pop(); ip++; }
-        else if (top == 'E' && curr == 'i') { st.pop(); st.push('X'); st.push('T'); } // E -> T X (X = E')
-        else if (top == 'T' && curr == 'i') { st.pop(); st.push('i'); }               // T -> i
-        else if (top == 'X' && curr == '+') { st.pop(); st.push('X'); st.push('T'); st.push('+'); } // X -> + T X
-        else if (top == 'X' && curr == '$') { st.pop(); }                             // X -> e
-        else { cout << "Parsing Failed!\n"; cout << "\nLab No.: 10 | Name: Saugat Bikram Thapa | Roll No./Sec: 80117731/A\n"; return 0; }
+        char t = st.top(); st.pop();
+        if (t == in[i]) i++;
+        else if (t == 'E' && in[i] == 'i') { st.push('R'); st.push('T'); }
+        else if (t == 'T' && in[i] == 'i') { st.push('i'); }
+        else if (t == 'R' && in[i] == '+') { st.push('R'); st.push('T'); st.push('+'); }
+        else if (t == 'R' && in[i] == '$') continue;
+        else { cout << "Parsing Failed!\n"; return 0; }
     }
     cout << "String Successfully Parsed!\n";
-
-    cout << "\nLab No.: 10 | Name: Saugat Bikram Thapa | Roll No./Sec: 80117731/A\n";
+    cout << "\nLab No_Q.: 10 | Name: Saugat Bikram Thapa | Roll No./Sec: 80117731/A\n";
     return 0;
 }
