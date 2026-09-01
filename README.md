@@ -6,24 +6,24 @@ This folder contains C++ programs, Flex specifications, and Bison grammar files 
 
 | File | Description |
 | --- | --- |
-| `Q1A.DFA_Start01.cpp` | DFA that accepts binary strings starting with `01`. |
-| `Q1B.DFA_End01.cpp` | DFA that accepts binary strings ending with `01`. |
-| `Q1C.DFA_AcceptSubstring001.cpp` | DFA that accepts binary strings containing `001`. |
-| `Q2.Prefix_Substring_Siffix.cpp` | Prints prefixes, suffixes, and substrings of a string. |
-| `Q3.CommentChecker.cpp` | Checks C/C++ style comments. |
-| `Q4.ValidateC_Identifiers.cpp` | Validates C identifiers and keywords. |
-| `Q5.LexicalAnalyzer.cpp` | Performs simple lexical analysis. |
-| `Q6.Lexer.l` | Flex specification for lexical analysis. |
-| `Q7.CFG+LeftRecursion_LeftFactorElem.cpp` | Removes left recursion and performs left factoring. |
-| `Q8.FirstFollowComputation.cpp` | Computes FIRST and FOLLOW sets. |
-| `Q9.LL(1)ParsingTable.cpp` | Constructs an LL(1) parsing table. |
-| `Q10.topDownLL(1)StackPArser.cpp` | Implements a stack-based LL(1) parser. |
-| `Q11.ShiftReducerParser.cpp` | Simulates shift-reduce parsing. |
-| `Q12.SLRParsingTableConstruction.cpp` | Constructs an SLR parsing table. |
-| `Q13.LR(1)ParsingTableConstruction.cpp` | Constructs LR(1) parser states/table. |
-| `Q14.LALR(1)ParsingTableConstruction.cpp` | Demonstrates LALR(1) state merging. |
-| `Q15.F1_parser.l` | Flex scanner for the Bison parser. |
-| `Q15.F2_parser.y` | Bison grammar for syntax analysis. |
+| `DFA_Start01.cpp` | DFA that accepts binary strings starting with `01` (Q1A). |
+| `DFA_End01.cpp` | DFA that accepts binary strings ending with `01` (Q1B). |
+| `DFA_AcceptSubstring001.cpp` | DFA that accepts binary strings containing `001` (Q1C). |
+| `Prefix_Substring_Siffix.cpp` | Prints prefixes, suffixes, and substrings of a string (Q2). |
+| `CommentChecker.cpp` | Checks C/C++ style comments (Q3). |
+| `ValidateC_Identifiers.cpp` | Validates C identifiers and keywords (Q4). |
+| `LexicalAnalyzer.cpp` | Performs simple lexical analysis (Q5). |
+| `Lexer.l` | Flex specification for lexical analysis (Q6). |
+| `CFG+LeftRecursion_LeftFactorElem.cpp` | Removes left recursion and performs left factoring (Q7). |
+| `FirstFollowComputation.cpp` | Computes FIRST and FOLLOW sets (Q8). |
+| `LL(1)ParsingTable.cpp` | Constructs an LL(1) parsing table (Q9). |
+| `topDownLL(1)StackPArser.cpp` | Implements a stack-based LL(1) parser (Q10). |
+| `ShiftReducerParser.cpp` | Simulates shift-reduce parsing (Q11). |
+| `SLRParsingTableConstruction.cpp` | Constructs an SLR parsing table (Q12). |
+| `LR(1)ParsingTableConstruction.cpp` | Constructs LR(1) parser states/table (Q13). |
+| `LALR(1)ParsingTableConstruction.cpp` | Demonstrates LALR(1) state merging (Q14). |
+| `F1_parser.l` | Flex scanner for the Bison parser (Q15). |
+| `F2_parser.y` | Bison grammar for syntax analysis (Q15). |
 
 ## Requirements
 
@@ -41,16 +41,16 @@ On Windows, WinFlexBison can be used. After installing it, make sure `flex`, `bi
 Compile any `.cpp` file with `g++`, then run the generated executable.
 
 ```powershell
-g++ Q1A.DFA_Start01.cpp -o program.exe
+g++ DFA_Start01.cpp -o program.exe
 .\program.exe
 ```
 
 ## Running a Flex File
 
-Use this for standalone `.l` files such as `Q6.Lexer.l`.
+Use this for standalone `.l` files such as `Lexer.l`.
 
 ```powershell
-flex Q6.Lexer.l
+flex Lexer.l
 gcc lex.yy.c -o lexer.exe
 .\lexer.exe
 ```
@@ -62,12 +62,12 @@ After running the lexer, enter the input text. To finish input:
 
 ## Running the Flex and Bison Parser
 
-Use this for the parser files `Q15.F1_parser.l` and `Q15.F2_parser.y`.
+Use this for the parser files `F1_parser.l` and `F2_parser.y`.
 
 ```powershell
-bison -d Q15.F2_parser.y
-flex Q15.F1_parser.l
-gcc Q15.F2_parser.tab.c lex.yy.c -o parser.exe
+bison -d F2_parser.y
+flex F1_parser.l
+gcc F2_parser.tab.c lex.yy.c -o parser.exe
 .\parser.exe
 ```
 

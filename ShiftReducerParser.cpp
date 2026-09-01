@@ -3,44 +3,35 @@
 #include <iomanip>
 using namespace std;
 
+string H[] = {"i", "E+E", "E*E", "(E)"};            // handles (RHS)
+string R[] = {"E->id", "E->E+E", "E->E*E", "E->(E)"};
+
 int main() {
-    string input, stack = "";
+    string in, st = "";
     cout << "Grammar: E->E+E | E*E | (E) | i\nEnter input using i for id: ";
-    cin >> input;
-    if (input.back() != '$') input += '$';
+    cin >> in;
+    if (in.back() != '$') in += '$';
     cout << left << setw(15) << "Stack" << setw(15) << "Input" << "Action\n";
-
     size_t i = 0;
-    while (i < input.length()) {
-        cout << setw(15) << stack << setw(15) << input.substr(i) << "Shift\n";
-        stack += input[i++];
-        if (stack.back() == 'i') {
-            cout << setw(15) << stack << setw(15) << input.substr(i) << "Reduce E->id\n";
-            stack.pop_back(); stack += 'E';
+    int steps = 0;
+    while (steps++ < 5000) {
+        if (st == "E" && in[i] == '$') {            // start symbol reached
+            cout << setw(15) << st << setw(15) << in.substr(i) << "ACCEPTED\n";
+            break;
         }
-        if (stack.size() >= 3 && stack.substr(stack.size() - 3) == "E+E") {
-            cout << setw(15) << stack << setw(15) << input.substr(i) << "Reduce E->E+E\n";
-            stack.replace(stack.size() - 3, 3, "E");
-        }
-        if (stack.size() >= 3 && stack.substr(stack.size() - 3) == "E*E") {
-            cout << setw(15) << stack << setw(15) << input.substr(i) << "Reduce E->E*E\n";
-            stack.replace(stack.size() - 3, 3, "E");
-        }
-        if (stack.size() >= 3 && stack.substr(stack.size() - 3) == "(E)") {
-            cout << setw(15) << stack << setw(15) << input.substr(i) << "Reduce E->(E)\n";
-            stack.replace(stack.size() - 3, 3, "E");
-        }
-        if (stack == "E$") {
-            cout << setw(15) << "E$" << setw(15) << "" << "ACCEPTED\n";
-            cout << "\nLab No_Q.: 11 | Name: Saugat Bikram Thapa | Roll No./Sec: 80117731/A\n";
-            return 0;
-        }
-        if (stack == "E+E") {
-            stack = "E";
-        }
+        bool red = false;                           // reduce topmost handle if any
+        for (int k = 0; k < 4; k++)
+            if (st.size() >= H[k].size() && st.substr(st.size() - H[k].size()) == H[k]) {
+                cout << setw(15) << st << setw(15) << in.substr(i) << "Reduce " << R[k] << "\n";
+                st.replace(st.size() - H[k].size(), H[k].size(), "E");
+                red = true;
+                break;
+            }
+        if (red) continue;
+        if (i == in.size()) { cout << "REJECTED\n"; break; }
+        cout << setw(15) << st << setw(15) << in.substr(i) << "Shift\n";
+        st += in[i++];
     }
-    cout << "REJECTED\n";
-
-    cout << "\nLab No_Q.: 11 | Name: Saugat Bikram Thapa | Roll No./Sec: 80117731/A\n";
+    cout << "\nLab No.: 11 | Name: Saugat Bikram Thapa | Roll No./Sec: 80117731/A\n";
     return 0;
 }

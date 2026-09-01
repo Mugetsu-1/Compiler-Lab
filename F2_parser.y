@@ -37,6 +37,6 @@ void yyerror(const char *s) { printf("Error: %s\n", s); }
 int main() {
     printf("Enter declarations or expressions ending with semicolon:\n");
     yyparse();
-    printf("\nLab No_Q.: 15 | Name: Saugat Bikram Thapa | Roll No./Sec: 80117731/A\n");
+    printf("\nLab No.: 15 | Name: Saugat Bikram Thapa | Roll No./Sec: 80117731/A\n");
     return 0;
 }

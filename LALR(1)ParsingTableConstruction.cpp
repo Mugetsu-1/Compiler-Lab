@@ -8,6 +8,6 @@ int main() {
     cout << "I36: [C -> c.C, c/d/$]\nI47: [C -> d., c/d/$]\n\n";
     cout << "LALR(1) Table constructed by combining LR(1) core states.\n";
 
-    cout << "\nLab No.: 14 | Name: Student | Roll No./Sec: 01/A\n";
+    cout << "\nLab No.: 14 | Name: Saugat Bikram Thapa | Roll No./Sec: 80117731/A\n";
     return 0;
 }

@@ -21,10 +21,10 @@ int main() {
         else if (top == 'T' && curr == 'i') { st.pop(); st.push('i'); }               // T -> i
         else if (top == 'X' && curr == '+') { st.pop(); st.push('X'); st.push('T'); st.push('+'); } // X -> + T X
         else if (top == 'X' && curr == '$') { st.pop(); }                             // X -> e
-        else { cout << "Parsing Failed!\n"; cout << "\nLab No.: 10 | Name: Student | Roll No./Sec: 01/A\n"; return 0; }
+        else { cout << "Parsing Failed!\n"; cout << "\nLab No.: 10 | Name: Saugat Bikram Thapa | Roll No./Sec: 80117731/A\n"; return 0; }
     }
     cout << "String Successfully Parsed!\n";
 
-    cout << "\nLab No.: 10 | Name: Student | Roll No./Sec: 01/A\n";
+    cout << "\nLab No.: 10 | Name: Saugat Bikram Thapa | Roll No./Sec: 80117731/A\n";
     return 0;
 }
