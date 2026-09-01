@@ -4,12 +4,8 @@
 using namespace std;
 
 int main() {
-    string in;
-    cout << "Enter expression (e.g., i+i): ";
-    cin >> in;
-    in += "$";
-    string stk = "";
-    
+    string in, stk = "";
+    cout << "Enter input expression (e.g. i+i): "; cin >> in; in += "$";
     cout << left << setw(12) << "Stack" << setw(12) << "Input" << "Action\n";
     for (size_t i = 0; i < in.length(); ) {
         cout << setw(12) << stk << setw(12) << in.substr(i) << "Shift\n";
@@ -24,6 +20,7 @@ int main() {
         }
     }
     cout << (stk == "E$" ? "ACCEPTED\n" : "REJECTED\n");
+
     cout << "\nLab No_Q.: 11 | Name: Saugat Bikram Thapa | Roll No./Sec: 80117731/A\n";
     return 0;
 }
