@@ -1,5 +1,5 @@
 %{
-#include "parser.tab.h"
+#include "F2_parser.tab.h"
 %}
 %%
 [0-9]+                 { yylval = atoi(yytext); return NUMBER; }
