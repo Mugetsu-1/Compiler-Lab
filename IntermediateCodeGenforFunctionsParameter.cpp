@@ -1,56 +1,49 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <unordered_map>
 
 struct Quadruple { std::string op, arg1, arg2, result; };
 std::vector<Quadruple> quadList;
-int labelCount = 1;
+std::unordered_map<std::string, int> funcSignatures;
 
-std::string newLabel() { return "L" + std::to_string(labelCount++); }
-
-std::vector<int> make_list(int quad_index) {
-    return {quad_index};
+void declare_function(const std::string& name, int paramCount) {
+    funcSignatures[name] = paramCount;
+    quadList.push_back({"FUNC_BEGIN", name, "", ""});
 }
 
-std::vector<int> merge_list(const std::vector<int>& list1, const std::vector<int>& list2) {
-    std::vector<int> result = list1;
-    result.insert(result.end(), list2.begin(), list2.end());
-    return result;
-}
-
-void backpatch(const std::vector<int>& list, const std::string& label) {
-    for (int quadIdx : list) {
-        quadList[quadIdx].result = label;
+void call_function(const std::string& name, const std::vector<std::string>& args, const std::string& retTemp) {
+    if (funcSignatures.count(name) && funcSignatures[name] != (int)args.size()) {
+        std::cout << "Signature Error: " << name << " expects "
+                  << funcSignatures[name] << " params, got " << args.size() << "\n";
+        return;
     }
-}
-
-void emit(std::string op, std::string arg1, std::string arg2, std::string result) {
-    quadList.push_back({op, arg1, arg2, result});
+    for (const auto& arg : args) {
+        quadList.push_back({"PARAM", arg, "", ""});
+    }
+    quadList.push_back({"CALL", name, std::to_string(args.size()), retTemp});
 }
 
 int main() {
-    std::cout << "Input Control Flow Expression: if (a < b && c > d) then S1 else S2\n\n";
+    std::cout << "Input Declarations and Function Calls:\n";
+    std::cout << "1. declare_function(\"foo\", 2)\n";
+    std::cout << "2. call_function(\"foo\", {\"a\", \"b\"}, \"t1\")\n";
+    std::cout << "3. call_function(\"foo\", {\"a\"}, \"t2\") [Mismatched Arguments]\n\n";
 
-    int q1 = quadList.size(); emit("ifFalse", "a < b", "", "");
-    std::string labelNextCond = newLabel();
-    backpatch(make_list(q1), labelNextCond);
+    declare_function("foo", 2);
+    quadList.push_back({"RETURN", "x", "", ""});
+    quadList.push_back({"FUNC_END", "foo", "", ""});
 
-    int q2 = quadList.size(); emit("ifFalse", "c > d", "", "");
-    std::string labelThen = newLabel();
-    std::string labelElse = newLabel();
+    call_function("foo", {"a", "b"}, "t1");
+    quadList.push_back({"=", "t1", "", "x"});
+    call_function("foo", {"a"}, "t2");
 
-    int qGoto = quadList.size(); emit("goto", "", "", "");
-
-    backpatch(make_list(q2), labelElse);
-    backpatch(make_list(qGoto), labelThen);
-
-    std::cout << "Generated Control Flow Quadruples:\n";
-    std::cout << "Index\tOp\tArg1\tArg2\tResult\n";
-    for (size_t i = 0; i < quadList.size(); ++i) {
-        std::cout << i << "\t" << quadList[i].op << "\t" << quadList[i].arg1 << "\t"
-                  << quadList[i].arg2 << "\t" << quadList[i].result << "\n";
+    std::cout << "\nGenerated TAC Quadruples:\n";
+    std::cout << "Op\tArg1\tArg2\tResult\n";
+    for (const auto& q : quadList) {
+        std::cout << q.op << "\t" << q.arg1 << "\t" << q.arg2 << "\t" << q.result << "\n";
     }
 
-    std::cout << "\nLab No. 21 Name: Saugat Bikram Thapa /Roll No.: 80117731/ Section: A\n";
+    std::cout << "\nLab No. 22 Name: Saugat Bikram Thapa /Roll No.: 80117731/ Section: A\n";
     return 0;
 }
