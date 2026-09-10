@@ -29,18 +29,22 @@ void emit(std::string op, std::string arg1, std::string arg2, std::string result
 }
 
 int main() {
-    std::string lBegin = newLabel();
-    int qCond = quadList.size();
-    emit("ifFalse", "cond", "", "");
-    int qGoto = quadList.size();
-    emit("goto", "", "", "");
+    std::cout << "Input Control Flow Expression: if (a < b && c > d) then S1 else S2\n\n";
 
-    std::string lThen = newLabel();
-    std::string lElse = newLabel();
+    int q1 = quadList.size(); emit("ifFalse", "a < b", "", "");
+    std::string labelNextCond = newLabel();
+    backpatch(make_list(q1), labelNextCond);
 
-    backpatch(make_list(qCond), lElse);
-    backpatch(make_list(qGoto), lThen);
+    int q2 = quadList.size(); emit("ifFalse", "c > d", "", "");
+    std::string labelThen = newLabel();
+    std::string labelElse = newLabel();
 
+    int qGoto = quadList.size(); emit("goto", "", "", "");
+
+    backpatch(make_list(q2), labelElse);
+    backpatch(make_list(qGoto), labelThen);
+
+    std::cout << "Generated Control Flow Quadruples:\n";
     std::cout << "Index\tOp\tArg1\tArg2\tResult\n";
     for (size_t i = 0; i < quadList.size(); ++i) {
         std::cout << i << "\t" << quadList[i].op << "\t" << quadList[i].arg1 << "\t"
