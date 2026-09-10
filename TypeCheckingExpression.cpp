@@ -11,6 +11,16 @@ struct Symbol {
 
 std::unordered_map<std::string, Symbol> symbolTable;
 
+std::string typeToString(DataType t) {
+    switch (t) {
+        case TYPE_INT: return "TYPE_INT";
+        case TYPE_FLOAT: return "TYPE_FLOAT";
+        case TYPE_BOOL: return "TYPE_BOOL";
+        case TYPE_ARRAY: return "TYPE_ARRAY";
+        default: return "TYPE_ERROR";
+    }
+}
+
 DataType evaluate_binary_type(DataType left, DataType right, int lineNo) {
     if (left == TYPE_ERROR || right == TYPE_ERROR) return TYPE_ERROR;
     if (left == TYPE_INT && right == TYPE_INT) return TYPE_INT;
@@ -36,17 +46,52 @@ DataType verify_array_access(const std::string& name, DataType indexType, int in
         std::cout << "Line " << lineNo << ": Error: Index " << indexVal << " out of bounds for '" << name << "'.\n";
         return TYPE_ERROR;
     }
+    std::cout << "Line " << lineNo << ": Array access valid for '" << name << "'.\n";
     return symbolTable[name].type;
 }
 
 int main() {
+    // Default array symbol for immediate testing
     symbolTable["arr"] = {TYPE_INT, 10};
 
-    evaluate_binary_type(TYPE_INT, TYPE_FLOAT, 1);
-    evaluate_binary_type(TYPE_INT, TYPE_BOOL, 2);
-    verify_array_access("arr", TYPE_INT, 5, 3);
-    verify_array_access("arr", TYPE_FLOAT, 2, 4);
-    verify_array_access("arr", TYPE_INT, 15, 5);
+    int choice;
+    do {
+        std::cout << "\nType Checking Module\n";
+        std::cout << "1. Declare Array Symbol\n";
+        std::cout << "2. Evaluate Binary Expression Type\n";
+        std::cout << "3. Verify Array Access\n";
+        std::cout << "4. Exit\n";
+        std::cout << "Choice: ";
+
+        if (!(std::cin >> choice) || choice == 4) break;
+
+        if (choice == 1) {
+            std::string name;
+            int typeChoice, bound;
+            std::cout << "Enter Array Name, Element Type (0: INT, 1: FLOAT, 2: BOOL), Bound: ";
+            std::cin >> name >> typeChoice >> bound;
+            DataType dt = (typeChoice == 0) ? TYPE_INT : ((typeChoice == 1) ? TYPE_FLOAT : TYPE_BOOL);
+            symbolTable[name] = {dt, bound};
+            std::cout << "Array '" << name << "' declared with bound " << bound << ".\n";
+        } else if (choice == 2) {
+            int leftChoice, rightChoice, lineNo;
+            std::cout << "Enter Left Type (0: INT, 1: FLOAT, 2: BOOL), Right Type (0: INT, 1: FLOAT, 2: BOOL), Line No: ";
+            std::cin >> leftChoice >> rightChoice >> lineNo;
+            DataType left = (leftChoice == 0) ? TYPE_INT : ((leftChoice == 1) ? TYPE_FLOAT : TYPE_BOOL);
+            DataType right = (rightChoice == 0) ? TYPE_INT : ((rightChoice == 1) ? TYPE_FLOAT : TYPE_BOOL);
+            DataType result = evaluate_binary_type(left, right, lineNo);
+            if (result != TYPE_ERROR) {
+                std::cout << "Resulting Data Type: " << typeToString(result) << "\n";
+            }
+        } else if (choice == 3) {
+            std::string name;
+            int indexTypeChoice, indexVal, lineNo;
+            std::cout << "Enter Array Name, Index Type (0: INT, 1: FLOAT, 2: BOOL), Index Value, Line No: ";
+            std::cin >> name >> indexTypeChoice >> indexVal >> lineNo;
+            DataType idxType = (indexTypeChoice == 0) ? TYPE_INT : ((indexTypeChoice == 1) ? TYPE_FLOAT : TYPE_BOOL);
+            verify_array_access(name, idxType, indexVal, lineNo);
+        }
+    } while (true);
 
     std::cout << "\nLab No. 18 Name: Saugat Bikram Thapa /Roll No.: 80117731/ Section: A\n";
     return 0;
