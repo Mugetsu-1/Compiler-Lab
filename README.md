@@ -37,8 +37,8 @@ This folder contains C++ programs, Flex specifications, and Bison grammar files 
 | `TypeCheckingExpression.cpp` | Type checking for expressions and assignments (Q18). |
 | `SemanticRulesforControlStrctures.cpp` | Semantic rules for control structures such as `if`/`while` (Q19). |
 | `IntermediateCodeGenforExpression.cpp` | Intermediate code (quadruples) for arithmetic expressions (Q20). |
-| `IntermediateCodeGenforFunctionsParameter.cpp` | Intermediate code for function declarations, calls, and parameters (Q21). |
-| `TACGenforControlFlowStatement.cpp` | Three-address code generation for control-flow statements (Q22). |
+| `TACGenforControlFlowStatement.cpp` | Three-address code generation for control-flow statements (Q21). |
+| `IntermediateCodeGenforFunctionsParameter.cpp` | Intermediate code for function declarations, calls, and parameters (Q22). |
 | `CodeGeneration.cpp` | Generates 8086-style assembly code from quadruples (Q23). |
 | `ConstantFoldingnConstantPropagation.cpp` | Optimizes constant folding and constant propagation (Q24). |
 | `DeadCodeElemnControlFlowGraph.cpp` | Dead-code elimination using a control-flow graph (Q25). |
