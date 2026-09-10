@@ -40,6 +40,11 @@ void optimizeConstants(std::vector<Quadruple>& quadList) {
                 quad.arg2 = "";
                 constTable[quad.result] = res;
                 modified = true;
+            } else if (quad.op == "=" && !isNumber(quad.arg1)) {
+                if (constTable.count(quad.result)) {
+                    constTable.erase(quad.result);
+                    modified = true;
+                }
             }
         }
     }
@@ -48,11 +53,18 @@ void optimizeConstants(std::vector<Quadruple>& quadList) {
 int main() {
     std::vector<Quadruple> quadList = {
         {"*", "4", "5", "t1"},
-        {"+", "t1", "10", "t2"}
+        {"+", "t1", "10", "t2"},
+        {"=", "y", "", "t2"}
     };
+
+    std::cout << "Input TAC Quadruples before Optimization:\n";
+    for (const auto& q : quadList) {
+        std::cout << q.op << " " << q.arg1 << " " << q.arg2 << " -> " << q.result << "\n";
+    }
 
     optimizeConstants(quadList);
 
+    std::cout << "\nOptimized TAC Quadruples (Constant Folding & Propagation):\n";
     for (const auto& q : quadList) {
         std::cout << q.op << " " << q.arg1 << " " << q.arg2 << " -> " << q.result << "\n";
     }
